@@ -59,6 +59,7 @@ config.yml should contain database connection details and oauth application deta
 
 ## Run 
 mvn clean install
+
 java -jar  -jar target/BankingApplication-1.0-SNAPSHOT.jar server config.yml
 
 ## Use postman to test the APIs
