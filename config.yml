@@ -1,0 +1,30 @@
+## Configuration file for Banking application.
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper: DEBUG
+
+authConfig:
+  authEnabled : true
+  baseUrl: https://org-url
+  issuer: "https://org-baseUrl/oauth2/default"
+  clientId: ""
+  apiToken: ""
+  audience: "api://default" 
+
+#Server configuration.
+server:
+    applicationConnectors:
+        - type: http
+          port: 8080
+
+# Database settings.
+database:
+    # the name of the JDBC driver, mysql in our case
+    driverClass: com.mysql.jdbc.Driver
+    # the username
+    user: root
+    # the password
+    password: ""
+    # the JDBC URL; the database is called DWGettingStarted
+    url: jdbc:mysql://localhost:3306/<database>
