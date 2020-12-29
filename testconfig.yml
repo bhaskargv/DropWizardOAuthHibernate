@@ -1,0 +1,25 @@
+## Configuration file for Banking application.
+
+authConfig:
+  authEnabled : false
+  baseUrl: https://dev-6412087.okta.com
+  issuer: "https://dev-6412087.okta.com/oauth2/default"
+  clientId: "0oa35i5qk8gr5ZLAB5d6"
+  audience: "api://default"  # defaults to 'api://default'
+
+#Server configuration.
+server:
+    applicationConnectors:
+        - type: http
+          port: 8080
+
+# Database settings.
+database:
+    # the name of the JDBC driver, mysql in our case
+    driverClass: com.mysql.jdbc.Driver
+    # the username
+    user: root
+    # the password
+    password: "DataSecurity_12#"
+    # the JDBC URL; the database is called DWGettingStarted
+    url: jdbc:mysql://localhost:3306/dwgettingstarted
