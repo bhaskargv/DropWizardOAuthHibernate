@@ -9,7 +9,7 @@ authConfig:
   baseUrl: https://dev-6412087.okta.com
   issuer: "https://dev-6412087.okta.com/oauth2/default"
   clientId: "0oa35i5qk8gr5ZLAB5d6"
-  apiToken: "00pVkHMauC3sFotr42tYYV195B00D0xmeuSRmjB-XS"
+  apiToken: 
   audience: "api://default"  # defaults to 'api://default'
 
 #Server configuration.
@@ -25,6 +25,6 @@ database:
     # the username
     user: root
     # the password
-    password: "DataSecurity_12#"
+    password: 
     # the JDBC URL; the database is called DWGettingStarted
     url: jdbc:mysql://localhost:3306/dwgettingstarted
