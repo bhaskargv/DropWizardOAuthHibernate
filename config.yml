@@ -26,5 +26,5 @@ database:
     user: root
     # the password
     password: ""
-    # the JDBC URL; the database is called DWGettingStarted
+    # the JDBC URL of the database
     url: jdbc:mysql://localhost:3306/<database>
