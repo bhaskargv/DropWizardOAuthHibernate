@@ -83,19 +83,19 @@ Run the following queries to create tables
 ## Setup OAuth application
 
 
-1. Choose Okta or Google to create an application.
-2. Add scopes if necessary
-3. Generate an API token (to manage users and groups)
-4. Create a group (admin) and add a user(admin user) to the group.
-5. Update claims for the app to get isAdmin = true when a user from admin group gets an access token.
+    1. Choose Okta or Google to create an application.
+    2. Add scopes if necessary
+    3. Generate an API token (to manage users and groups)
+    4. Create a group (admin) and add a user(admin user) to the group.
+    5. Update claims for the app to get isAdmin = true when a user from admin group gets an access token.
 
 
 ## Update the config file
-config.yml should contain database connection details and oauth application details. You can use the template.
+    config.yml should contain database connection details and oauth application details. You can use the template.
 
 ## Run 
-mvn clean install
+    mvn clean install
 
-java -jar  -jar target/BankingApplication-1.0-SNAPSHOT.jar server config.yml
+    java -jar  -jar target/BankingApplication-1.0-SNAPSHOT.jar server config.yml
 
 ## Use postman to test the APIs
