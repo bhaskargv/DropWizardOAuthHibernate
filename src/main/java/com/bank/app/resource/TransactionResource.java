@@ -55,28 +55,43 @@ public class TransactionResource {
             throw new BadRequestException("One of the accounts for money transfer is not found");
         if (fromAccount.get().getAccountType().equals(Account.AccountType.Loan))
             throw new BadRequestException("Cannot transfer money from a loan account");
+        if (fromAccount.get().getBalance() - transferDetails.getAmmount() < 0.0)
+            throw new BadRequestException("Insufficient balance in the account to be debited from");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String randomString = UUID.randomUUID().toString().substring(1, 7);
         Transaction tr1 = new Transaction();
         tr1.setId("DB" + randomString);
         tr1.setAccount(fromAccount.get());
-        tr1.setPostedOn(formatter.format(date));
+        tr1.setBalanceBefore(fromAccount.get().getBalance());
+        tr1.setPostedOn(date);
         tr1.setAmmount(transferDetails.getAmmount());
         tr1.setTransactionType(Transaction.TransactionType.DEBIT);
-        transactionDAO.add(tr1);
+
         Transaction tr2 = new Transaction();
         tr2.setId("CR" + randomString);
         tr2.setAccount(toAccount.get());
-        tr2.setPostedOn(formatter.format(date));
+        tr2.setBalanceBefore(toAccount.get().getBalance());
+        tr2.setPostedOn(date);
         tr2.setAmmount(transferDetails.getAmmount());
         tr2.setTransactionType(Transaction.TransactionType.CREDIT);
-        transactionDAO.add(tr2);
+
+        Double fromAccountAfterBalance = fromAccount.get().getBalance() - transferDetails.getAmmount();
+        Double toAccountAfterBalance = 0.0;
+        if (toAccount.get().getAccountType().equals(Account.AccountType.Loan)) {
+            toAccountAfterBalance = toAccount.get().getBalance() - transferDetails.getAmmount();
+        } else {
+            toAccountAfterBalance = toAccount.get().getBalance() + transferDetails.getAmmount();
+        }
+        tr1.setBalanceAfter(fromAccountAfterBalance);
+        tr2.setBalanceAfter(toAccountAfterBalance);
+
         log.info("Post the debit transaction in account with id {} ", transferDetails.getFromAccountId());
-        accountDAO.update(fromAccount.get().withBalance(fromAccount.get().getBalance() - transferDetails.getAmmount()));
+        accountDAO.update(fromAccount.get().withBalance(fromAccountAfterBalance));
+        transactionDAO.add(tr1);
         log.info("Post the credit transaction in account with id {} ", transferDetails.getToAccountId());
-        accountDAO.update(toAccount.get().withBalance(toAccount.get().getBalance() + transferDetails.getAmmount()));
+        accountDAO.update(toAccount.get().withBalance(toAccountAfterBalance));
+        transactionDAO.add(tr2);
     }
 }
 

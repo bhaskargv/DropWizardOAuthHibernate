@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -30,6 +31,9 @@ public class Account {
 
     @Column(name = "balance")
     private Double balance = 0.0;
+
+    @Column(name = "created_on")
+    private Date createdOn;
 
     @JsonBackReference
     @ManyToOne(targetEntity = Customer.class)

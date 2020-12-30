@@ -1,9 +1,12 @@
 package com.bank.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -44,6 +47,10 @@ public class Customer {
     private String phone;
 
     @Column(name = "date_of_birth")
+    private Date dob;
+
+    @Transient
+    @JsonProperty
     private String dateOfBirth;
 
     @Column(name = "ssn")
@@ -52,4 +59,14 @@ public class Customer {
     @JsonManagedReference
     @OneToMany(mappedBy = "customer", targetEntity = Account.class)
     private List<Account> accounts;
+
+    @JsonProperty
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    @JsonProperty
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 }

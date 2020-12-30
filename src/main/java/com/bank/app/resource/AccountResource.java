@@ -13,6 +13,7 @@ import io.dropwizard.jersey.params.NonEmptyStringParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,7 @@ public class AccountResource {
             throw new BadRequestException("Account type is not specified");
         if (account.getBalance() <= 0.0)
             throw new BadRequestException("Account balance cannot be zero while opening the account");
+        account.setCreatedOn(new Date());
         accountDAO.add(account);
         log.info("Successfully added the account");
     }

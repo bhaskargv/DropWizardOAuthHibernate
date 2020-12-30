@@ -16,6 +16,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -49,6 +50,7 @@ public class EmployeeResource {
             throw new NotAuthorizedException("Principal not authorized to perform this operation");
         log.info("Add an employee.");
         //Validate the employee details
+        employee.setDateOfJoining(new Date());
         employeeDAO.add(employee);
         //Add the employee to the Okta account.
         Client client = Clients.builder()

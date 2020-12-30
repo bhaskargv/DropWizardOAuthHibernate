@@ -9,7 +9,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
+import java.util.Date;
 
 @Builder
 @Getter
@@ -48,4 +51,8 @@ public class Employee {
 
     @Column(name = "email")
     private String email;
+
+    @JsonIgnore
+    @Column(name = "date_of_joining")
+    private Date dateOfJoining;
 }

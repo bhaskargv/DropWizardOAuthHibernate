@@ -1,9 +1,11 @@
 package com.bank.app.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -26,8 +28,15 @@ public class Transaction {
     @Column(name = "ammount")
     private Double ammount = 0.0;
 
+    @Column(name = "balance_before")
+    private Double balanceBefore = 0.0;
+
+    @Column(name = "balance_after")
+    private Double balanceAfter = 0.0;
+
     @Column(name = "posted_on")
-    private String postedOn;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date postedOn;
 
     @JsonBackReference
     @ManyToOne(targetEntity = Account.class)

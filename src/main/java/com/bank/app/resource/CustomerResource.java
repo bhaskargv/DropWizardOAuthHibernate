@@ -11,8 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Slf4j
@@ -37,9 +41,23 @@ public class CustomerResource {
      */
     @POST
     @UnitOfWork
-    public void createCustomer(Customer customer) {
+    public void createCustomer(Customer customer){
         //Validate the customer details
+        if (isNull(customer.getDateOfBirth())
+                || isNull(customer.getEmail())
+                || isNull(customer.getSsn()))
+            throw new BadRequestException("Insufficient details provided.");
         log.info("Validate the customer details");
+        if (!customerDAO.findByEmail(customer.getEmail()).isEmpty())
+            throw new BadRequestException("Email provided is already used, it should be unique");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dob = null;
+        try {
+            dob = formatter.parse(customer.getDateOfBirth());
+        } catch (ParseException e) {
+            throw new BadRequestException("Date of birth should be specified in yyyy-MM-dd format");
+        }
+        customer.setDob(dob);
         customerDAO.add(customer);
         log.info("Successfully added the customer");
     }
