@@ -35,48 +35,48 @@ Bank Employee user can do the following :
 
 Run the following queries to create tables
 
-create table employees(
-    -- auto-generated primary key
-    id bigint primary key not null auto_increment,
-    first_name varchar(255) not null,
-    last_name varchar(255) not null,
-    designation  varchar(255) not null,
-    phone  varchar(255) not null,
-    email varchar(255) not null,
-    date_of_joining DATE not null
-);
+    create table employees(
+        -- auto-generated primary key
+        id bigint primary key not null auto_increment,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        designation  varchar(255) not null,
+        phone  varchar(255) not null,
+        email varchar(255) not null,
+        date_of_joining DATE not null
+    );
 
-create table customers(
-    id varchar(255) primary key not null,
-    first_name varchar(255) not null,
-    last_name varchar(255) not null,
-    address  varchar(255) not null,
-    phone  varchar(255) not null,
-    email varchar(255) not null,
-    date_of_birth DATE not null,
-    ssn varchar(255) not null
-);
+    create table customers(
+        id varchar(255) primary key not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        address  varchar(255) not null,
+        phone  varchar(255) not null,
+        email varchar(255) not null,
+        date_of_birth DATE not null,
+        ssn varchar(255) not null
+    );
 
-create table accounts(
-    id varchar(255) primary key not null,
-    account_type varchar(255) not null,
-    balance DECIMAL(10,2),
-    created_on DATE not null,
-    customer_id varchar(255),
-    foreign key (customer_id)  references customers(id)
-);
+    create table accounts(
+        id varchar(255) primary key not null,
+        account_type varchar(255) not null,
+        balance DECIMAL(10,2),
+        created_on DATE not null,
+        customer_id varchar(255),
+        foreign key (customer_id)  references customers(id)
+    );
 
-create table transactions(
-    id varchar(255) primary key not null,
-    type varchar(255) not null,
-    ammount DECIMAL(10,2),
-    posted_on DATE not null,
-    balance_after DECIMAL(10,2),
-    balance_before DECIMAL(10,2),
-    account_id varchar(255),
-    foreign key (account_id)
-    references accounts(id)
-);
+    create table transactions(
+        id varchar(255) primary key not null,
+        type varchar(255) not null,
+        ammount DECIMAL(10,2),
+        posted_on DATE not null,
+        balance_after DECIMAL(10,2),
+        balance_before DECIMAL(10,2),
+        account_id varchar(255),
+        foreign key (account_id)
+        references accounts(id)
+    );
 
 ---
 
