@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,7 @@ public class Account {
     @Id
     private String id;
 
+    @NotNull
     @Column(name = "account_type")
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

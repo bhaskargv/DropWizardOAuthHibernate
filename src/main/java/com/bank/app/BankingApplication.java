@@ -26,8 +26,10 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+@Slf4j
 public class BankingApplication extends Application<BankingAppConfig> {
 
     private final HibernateBundle<BankingAppConfig> hibernateBundle
@@ -51,7 +53,6 @@ public class BankingApplication extends Application<BankingAppConfig> {
     public void initialize(final Bootstrap<BankingAppConfig> bootstrap) {
         bootstrap.addBundle(hibernateBundle);
     }
-
 
     @Override
     public void run(final BankingAppConfig configuration,

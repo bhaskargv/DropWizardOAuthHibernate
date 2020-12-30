@@ -7,6 +7,7 @@ import com.bank.app.model.Transaction;
 import com.bank.app.model.TransferDetails;
 import com.google.common.base.Optional;
 import io.dropwizard.hibernate.UnitOfWork;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+
+@Slf4j
 @Path("/transactions")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,16 +32,29 @@ public class TransactionResource {
         this.accountDAO = accountDAO;
     }
 
+    /**
+     * Post a transaction to transfer money from one account to the other.
+     *
+     * @param transferDetails - details of the accounts for money transfer
+     */
     @POST
     @UnitOfWork
     public void transfer(TransferDetails transferDetails) {
+        //Validate the transfer details
+        if (isNull(transferDetails.getFromAccountId())
+                || isNull(transferDetails.getToAccountId())
+                || transferDetails.getAmmount() <= 0.0)
+            throw new BadRequestException("Insufficient transfer details");
+
+        log.info("Retrieve the account with the id {}", transferDetails.getFromAccountId());
         Optional<Account> fromAccount = accountDAO.findById(transferDetails.getFromAccountId());
+        log.info("Retrieve the account with the id {}", transferDetails.getToAccountId());
         Optional<Account> toAccount = accountDAO.findById(transferDetails.getToAccountId());
-        if (transferDetails.getAmmount() <= 0.0
-                || !fromAccount.isPresent()
-                || !toAccount.isPresent()
-                || fromAccount.get().getAccountType().equals(Account.AccountType.Loan))
-            throw new BadRequestException();
+        if (!fromAccount.isPresent()
+                || !toAccount.isPresent())
+            throw new BadRequestException("One of the accounts for money transfer is not found");
+        if (fromAccount.get().getAccountType().equals(Account.AccountType.Loan))
+            throw new BadRequestException("Cannot transfer money from a loan account");
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
@@ -56,7 +73,9 @@ public class TransactionResource {
         tr2.setAmmount(transferDetails.getAmmount());
         tr2.setTransactionType(Transaction.TransactionType.CREDIT);
         transactionDAO.add(tr2);
+        log.info("Post the debit transaction in account with id {} ", transferDetails.getFromAccountId());
         accountDAO.update(fromAccount.get().withBalance(fromAccount.get().getBalance() - transferDetails.getAmmount()));
+        log.info("Post the credit transaction in account with id {} ", transferDetails.getToAccountId());
         accountDAO.update(toAccount.get().withBalance(toAccount.get().getBalance() + transferDetails.getAmmount()));
     }
 }
