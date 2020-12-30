@@ -83,7 +83,7 @@ Run the following queries to create tables
 ## Setup OAuth application
 
 
-    1. Choose Okta or Google to create an application.
+    1. Choose Okta for oauth to create an application.
     2. Add scopes if necessary
     3. Generate an API token (to manage users and groups)
     4. Create a group (admin) and add a user(admin user) to the group.
