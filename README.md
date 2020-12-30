@@ -10,7 +10,8 @@ create table employees(
     last_name varchar(255) not null,
     designation  varchar(255) not null,
     phone  varchar(255) not null,
-    email varchar(255) not null
+    email varchar(255) not null,
+    date_of_joining DATE not null
 );
 
 create table customers(
@@ -20,25 +21,28 @@ create table customers(
     address  varchar(255) not null,
     phone  varchar(255) not null,
     email varchar(255) not null,
-	date_of_birth varchar(255) not null,
-	ssn varchar(255) not null
+    date_of_birth DATE not null,
+    ssn varchar(255) not null
 );
 
 create table accounts(
     id varchar(255) primary key not null,
     account_type varchar(255) not null,
     balance DECIMAL(10,2),
+    created_on DATE not null,
     customer_id varchar(255),
-	foreign key (customer_id)  references customers(id)
+    foreign key (customer_id)  references customers(id)
 );
 
 create table transactions(
     id varchar(255) primary key not null,
     type varchar(255) not null,
     ammount DECIMAL(10,2),
-	posted_on varchar(255) not null,
+    posted_on DATE not null,
+    balance_after DECIMAL(10,2),
+    balance_before DECIMAL(10,2),
     account_id varchar(255),
-	foreign key (account_id)
+    foreign key (account_id)
     references accounts(id)
 );
 
