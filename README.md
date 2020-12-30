@@ -1,3 +1,22 @@
+## Banking Application
+A simple banking application using dropwizard, hibernate and oauth addressing the following requirements
+
+User with Admin role can do the following:
+1.Sign in/out as admin.
+2.Add bank employees.
+3.Delete employees.
+
+Bank Employee user can do the following :
+1.Sign in/out as an employee.
+2.Create a customer.
+3.Create accounts like savings, salary, loan, current account etc.
+4.Link customers with accounts.
+5.Update KYC for a customer.
+6.Get details of a customer.
+7.Delete customer.
+8.Get account balance for an account.
+9.Transfer money from one account to another.
+
 
 ## Setup database
 
